@@ -1,8 +1,9 @@
-#!/usr/local/bin/python
+#!/usr/bin/python
 
 # The MIT License (MIT)
 #
 # Copyright (c) 2014 Austin Hyde
+# Copyright (c) 2016 Kazutoshi Noguchi
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +23,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-def packer_in_path(module):
-  rc, stdout, stderr = module.run_command('which packer', check_rc=False)
+def pacaur_in_path(module):
+  rc, stdout, stderr = module.run_command('which pacaur', check_rc=False)
   return rc == 0
 
 
@@ -69,7 +70,7 @@ def install_packages(module, pkgs):
   num_installed = 0
 
   sudo_user = get_sudo_user(module)
-  cmd = 'sudo -u %s packer --noconfirm --noedit -S %s'
+  cmd = 'sudo -u %s pacaur --noconfirm --noedit -S %s'
 
   for pkg in pkgs:
     if package_installed(module, pkg):
@@ -126,8 +127,8 @@ def main():
     supports_check_mode = True
   )
 
-  if not packer_in_path(module):
-    module.fail_json(msg="could not locate packer executable")
+  if not pacaur_in_path(module):
+    module.fail_json(msg="could not locate pacaur executable")
 
   if not pacman_in_path(module):
     module.fail_json(msg="could not locate pacman executable")
